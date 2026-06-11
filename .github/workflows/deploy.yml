@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Notify deployment
+        run: echo "Deploying commit ${{ github.sha }} to Render"
+
+      # Render deploys automatically via GitHub integration.
+      # Add a Render deploy hook here if manual trigger is needed:
+      # - name: Trigger Render deploy
+      #   run: curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK_URL }}

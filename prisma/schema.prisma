@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String        @id @default(cuid())
+  email        String        @unique
+  password     String?
+  name         String
+  avatar       String?
+  provider     AuthProvider  @default(LOCAL)
+  googleId     String?       @unique
+  refreshToken String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  applications Application[]
+}
+
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+}
+
+model Application {
+  id             String            @id @default(cuid())
+  userId         String
+  user           User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  companyName    String
+  jobTitle       String
+  location       String?
+  workModel      WorkModel         @default(HYBRID)
+  status         ApplicationStatus @default(APPLIED)
+  dateApplied    DateTime          @default(now())
+  jobUrl         String?
+  notes          String?
+  salaryExpected String?
+  contactPerson  String?
+  followUpSent   Boolean           @default(false)
+  followUpDate   DateTime?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  @@index([userId])
+  @@index([status])
+  @@index([dateApplied])
+}
+
+enum WorkModel {
+  REMOTE
+  HYBRID
+  ON_SITE
+}
+
+enum ApplicationStatus {
+  APPLIED
+  INTERVIEW_SCHEDULED
+  INTERVIEW_DONE
+  OFFER_RECEIVED
+  REJECTED
+  GHOSTED
+}
