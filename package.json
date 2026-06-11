@@ -1,7 +1,7 @@
 {
-  "name": "ai-job-tracker-server",
+  "name": "jobmind-server",
   "version": "1.0.0",
-  "description": "AI Job Tracker — backend API",
+  "description": "JobMind — backend API",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon",

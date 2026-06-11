@@ -149,5 +149,5 @@ export const googleCallback = asyncHandler(async (req: Request, res: Response) =
   await prisma.user.update({ where: { id: user.id }, data: { refreshToken: hashed } });
 
   res.cookie('refreshToken', refreshToken, COOKIE_OPTIONS);
-  res.redirect(`${env.clientUrl}/auth/callback?token=${accessToken}`);
+  res.redirect(`${env.clientUrl}/login?token=${accessToken}`);
 });
